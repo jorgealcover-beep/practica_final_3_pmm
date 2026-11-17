@@ -1,159 +1,324 @@
 import 'models.dart';
 
-class Book {
-    final int id;
-    final String title;
-    final String? alternativeTitle;
-    final List<Author> authors;
-    final List<String> subjects;
-    final List<String> bookshelves;
-    final Formats formats;
-    final int downloadCount;
-    final DateTime issued;
-    final String summary;
-    final String? readingEaseScore;
-    final String coverImage;
-    final dynamic removedFromCatalog;
+class Results {
+    final DateTime previousPublishedDate;
+    final DateTime publishedDate;
+    final String nextPublishedDate;
+    final String publishedDateDescription;
+    final DateTime bestsellersDate;
+    final List<ListElement> lists;
+    final String monthlyUri;
+    final String weeklyUri;
 
-    Book({
-        required this.id,
-        required this.title,
-        required this.alternativeTitle,
-        required this.authors,
-        required this.subjects,
-        required this.bookshelves,
-        required this.formats,
-        required this.downloadCount,
-        required this.issued,
-        required this.summary,
-        required this.readingEaseScore,
-        required this.coverImage,
-        required this.removedFromCatalog,
+    Results({
+        required this.previousPublishedDate,
+        required this.publishedDate,
+        required this.nextPublishedDate,
+        required this.publishedDateDescription,
+        required this.bestsellersDate,
+        required this.lists,
+        required this.monthlyUri,
+        required this.weeklyUri,
+    });
+    List<ListElement> getLists() {
+      return lists;
+    }
+    factory Results.fromJson(String str) => Results.fromMap(json.decode(str));
+
+    String toJson() => json.encode(toMap());
+
+    factory Results.fromMap(Map<String, dynamic> json) => Results(
+        previousPublishedDate: DateTime.parse(json["previous_published_date"]),
+        publishedDate: DateTime.parse(json["published_date"]),
+        nextPublishedDate: json["next_published_date"],
+        publishedDateDescription: json["published_date_description"],
+        bestsellersDate: DateTime.parse(json["bestsellers_date"]),
+        lists: List<ListElement>.from(json["lists"].map((x) => ListElement.fromMap(x))),
+        monthlyUri: json["monthly_uri"],
+        weeklyUri: json["weekly_uri"],
+    );
+
+    Map<String, dynamic> toMap() => {
+        "previous_published_date": "${previousPublishedDate.year.toString().padLeft(4, '0')}-${previousPublishedDate.month.toString().padLeft(2, '0')}-${previousPublishedDate.day.toString().padLeft(2, '0')}",
+        "published_date": "${publishedDate.year.toString().padLeft(4, '0')}-${publishedDate.month.toString().padLeft(2, '0')}-${publishedDate.day.toString().padLeft(2, '0')}",
+        "next_published_date": nextPublishedDate,
+        "published_date_description": publishedDateDescription,
+        "bestsellers_date": "${bestsellersDate.year.toString().padLeft(4, '0')}-${bestsellersDate.month.toString().padLeft(2, '0')}-${bestsellersDate.day.toString().padLeft(2, '0')}",
+        "lists": List<dynamic>.from(lists.map((x) => x.toMap())),
+        "monthly_uri": monthlyUri,
+        "weekly_uri": weeklyUri,
+    };
+}
+
+class ListElement {
+    final String displayName;
+    final String listName;
+    final String listNameEncoded;
+    final int normalListEndsAt;
+    final Updated updated;
+    final int listId;
+    final String uri;
+    final List<Book> books;
+    final List<dynamic> corrections;
+
+    ListElement({
+        required this.displayName,
+        required this.listName,
+        required this.listNameEncoded,
+        required this.normalListEndsAt,
+        required this.updated,
+        required this.listId,
+        required this.uri,
+        required this.books,
+        required this.corrections,
     });
 
-    
+    List<Book> getBooks() {
+      return books;
+    }
+
+    factory ListElement.fromJson(String str) => ListElement.fromMap(json.decode(str));
+
+    String toJson() => json.encode(toMap());
+
+    factory ListElement.fromMap(Map<String, dynamic> json) => ListElement(
+        displayName: json["display_name"],
+        listName: json["list_name"],
+        listNameEncoded: json["list_name_encoded"],
+        normalListEndsAt: json["normal_list_ends_at"],
+        updated: updatedValues.map[json["updated"]]!,
+        listId: json["list_id"],
+        uri: json["uri"],
+        books: List<Book>.from(json["books"].map((x) => Book.fromMap(x))),
+        corrections: List<dynamic>.from(json["corrections"].map((x) => x)),
+    );
+
+    Map<String, dynamic> toMap() => {
+        "display_name": displayName,
+        "list_name": listName,
+        "list_name_encoded": listNameEncoded,
+        "normal_list_ends_at": normalListEndsAt,
+        "updated": updatedValues.reverse[updated],
+        "list_id": listId,
+        "uri": uri,
+        "books": List<dynamic>.from(books.map((x) => x.toMap())),
+        "corrections": List<dynamic>.from(corrections.map((x) => x)),
+    };
+}
+
+
+class Book {
+    final String ageGroup;
+    final String amazonProductUrl;
+    final String articleChapterLink;
+    final int asterisk;
+    final String author;
+    final String bookImage;
+    final int bookImageHeight;
+    final int bookImageWidth;
+    final String bookReviewLink;
+    final String bookUri;
+    final String contributor;
+    final String contributorNote;
+    final DateTime createdDate;
+    final int dagger;
+    final String description;
+    final String firstChapterLink;
+    final String price;
+    final String primaryIsbn10;
+    final String primaryIsbn13;
+    final String publisher;
+    final int rank;
+    final int rankLastWeek;
+    final String sundayReviewLink;
+    final String title;
+    final DateTime updatedDate;
+    final int weeksOnList;
+    final List<Isbn> isbns;
+    final List<BuyLink> buyLinks;
+
+    Book({
+        required this.ageGroup,
+        required this.amazonProductUrl,
+        required this.articleChapterLink,
+        required this.asterisk,
+        required this.author,
+        required this.bookImage,
+        required this.bookImageHeight,
+        required this.bookImageWidth,
+        required this.bookReviewLink,
+        required this.bookUri,
+        required this.contributor,
+        required this.contributorNote,
+        required this.createdDate,
+        required this.dagger,
+        required this.description,
+        required this.firstChapterLink,
+        required this.price,
+        required this.primaryIsbn10,
+        required this.primaryIsbn13,
+        required this.publisher,
+        required this.rank,
+        required this.rankLastWeek,
+        required this.sundayReviewLink,
+        required this.title,
+        required this.updatedDate,
+        required this.weeksOnList,
+        required this.isbns,
+        required this.buyLinks,
+    });
 
     factory Book.fromJson(String str) => Book.fromMap(json.decode(str));
 
     String toJson() => json.encode(toMap());
 
     factory Book.fromMap(Map<String, dynamic> json) => Book(
-        id: json["id"],
+        ageGroup: json["age_group"],
+        amazonProductUrl: json["amazon_product_url"],
+        articleChapterLink: json["article_chapter_link"],
+        asterisk: json["asterisk"],
+        author: json["author"],
+        bookImage: json["book_image"],
+        bookImageHeight: json["book_image_height"],
+        bookImageWidth: json["book_image_width"],
+        bookReviewLink: json["book_review_link"],
+        bookUri: json["book_uri"],
+        contributor: json["contributor"],
+        contributorNote: json["contributor_note"],
+        createdDate: DateTime.parse(json["created_date"]),
+        dagger: json["dagger"],
+        description: json["description"],
+        firstChapterLink: json["first_chapter_link"],
+        price: json["price"],
+        primaryIsbn10: json["primary_isbn10"],
+        primaryIsbn13: json["primary_isbn13"],
+        publisher: json["publisher"],
+        rank: json["rank"],
+        rankLastWeek: json["rank_last_week"],
+        sundayReviewLink: json["sunday_review_link"],
         title: json["title"],
-        alternativeTitle: json["alternative_title"],
-        authors: List<Author>.from(json["authors"].map((x) => Author.fromMap(x))),
-        subjects: List<String>.from(json["subjects"].map((x) => x)),
-        bookshelves: List<String>.from(json["bookshelves"].map((x) => x)),
-        formats: Formats.fromMap(json["formats"]),
-        downloadCount: json["download_count"],
-        issued: DateTime.parse(json["issued"]),
-        summary: json["summary"],
-        readingEaseScore: json["reading_ease_score"],
-        coverImage: json["cover_image"],
-        removedFromCatalog: json["removed_from_catalog"],
+        updatedDate: DateTime.parse(json["updated_date"]),
+        weeksOnList: json["weeks_on_list"],
+        isbns: List<Isbn>.from(json["isbns"].map((x) => Isbn.fromMap(x))),
+        buyLinks: List<BuyLink>.from(json["buy_links"].map((x) => BuyLink.fromMap(x))),
     );
 
     Map<String, dynamic> toMap() => {
-        "id": id,
+        "age_group": ageGroup,
+        "amazon_product_url": amazonProductUrl,
+        "article_chapter_link": articleChapterLink,
+        "asterisk": asterisk,
+        "author": author,
+        "book_image": bookImage,
+        "book_image_height": bookImageHeight,
+        "book_image_width": bookImageWidth,
+        "book_review_link": bookReviewLink,
+        "book_uri": bookUri,
+        "contributor": contributor,
+        "contributor_note": contributorNote,
+        "created_date": createdDate.toIso8601String(),
+        "dagger": dagger,
+        "description": description,
+        "first_chapter_link": firstChapterLink,
+        "price": price,
+        "primary_isbn10": primaryIsbn10,
+        "primary_isbn13": primaryIsbn13,
+        "publisher": publisher,
+        "rank": rank,
+        "rank_last_week": rankLastWeek,
+        "sunday_review_link": sundayReviewLink,
         "title": title,
-        "alternative_title": alternativeTitle,
-        "authors": List<dynamic>.from(authors.map((x) => x.toMap())),
-        "subjects": List<dynamic>.from(subjects.map((x) => x)),
-        "bookshelves": List<dynamic>.from(bookshelves.map((x) => x)),
-        "formats": formats.toMap(),
-        "download_count": downloadCount,
-        "issued": issued.toIso8601String(),
-        "summary": summary,
-        "reading_ease_score": readingEaseScore,
-        "cover_image": coverImage,
-        "removed_from_catalog": removedFromCatalog,
+        "updated_date": updatedDate.toIso8601String(),
+        "weeks_on_list": weeksOnList,
+        "isbns": List<dynamic>.from(isbns.map((x) => x.toMap())),
+        "buy_links": List<dynamic>.from(buyLinks.map((x) => x.toMap())),
     };
 }
 
-class Author {
-    final int id;
-    final String name;
+class BuyLink {
+    final Name name;
+    final String url;
 
-    Author({
-        required this.id,
+    BuyLink({
         required this.name,
+        required this.url,
     });
 
-    factory Author.fromJson(String str) => Author.fromMap(json.decode(str));
+    factory BuyLink.fromJson(String str) => BuyLink.fromMap(json.decode(str));
 
     String toJson() => json.encode(toMap());
 
-    factory Author.fromMap(Map<String, dynamic> json) => Author(
-        id: json["id"],
-        name: json["name"],
+    factory BuyLink.fromMap(Map<String, dynamic> json) => BuyLink(
+        name: nameValues.map[json["name"]]!,
+        url: json["url"],
     );
 
     Map<String, dynamic> toMap() => {
-        "id": id,
-        "name": name,
+        "name": nameValues.reverse[name],
+        "url": url,
     };
 }
 
-class Formats {
-    final String? textPlainCharsetUsAscii;
-    final String? textPlain;
-    final String? textHtmlCharsetUtf8;
-    final String textHtml;
-    final String applicationEpubZip;
-    final String applicationXMobipocketEbook;
-    final String textPlainCharsetUtf8;
-    final String applicationRdfXml;
-    final String imageJpeg;
-    final String applicationOctetStream;
-    final String applicationZip;
-    final String? textPlainCharsetIso88591;
+enum Name {
+    AMAZON,
+    APPLE_BOOKS,
+    BARNES_AND_NOBLE,
+    BARNES_NOBLE,
+    BOOKSHOP_ORG,
+    BOOKS_A_MILLION
+}
 
-    Formats({
-        this.textPlainCharsetUsAscii,
-        this.textPlain,
-        this.textHtmlCharsetUtf8,
-        required this.textHtml,
-        required this.applicationEpubZip,
-        required this.applicationXMobipocketEbook,
-        required this.textPlainCharsetUtf8,
-        required this.applicationRdfXml,
-        required this.imageJpeg,
-        required this.applicationOctetStream,
-        required this.applicationZip,
-        this.textPlainCharsetIso88591,
+final nameValues = EnumValues({
+    "Amazon": Name.AMAZON,
+    "Apple Books": Name.APPLE_BOOKS,
+    "Barnes and Noble": Name.BARNES_AND_NOBLE,
+    "Barnes & Noble": Name.BARNES_NOBLE,
+    "Bookshop.org": Name.BOOKSHOP_ORG,
+    "Books-A-Million": Name.BOOKS_A_MILLION
+});
+
+class Isbn {
+    final String isbn10;
+    final String isbn13;
+
+    Isbn({
+        required this.isbn10,
+        required this.isbn13,
     });
 
-    factory Formats.fromJson(String str) => Formats.fromMap(json.decode(str));
+    factory Isbn.fromJson(String str) => Isbn.fromMap(json.decode(str));
 
     String toJson() => json.encode(toMap());
 
-    factory Formats.fromMap(Map<String, dynamic> json) => Formats(
-        textPlainCharsetUsAscii: json["text/plain; charset=us-ascii"],
-        textPlain: json["text/plain"],
-        textHtmlCharsetUtf8: json["text/html; charset=utf-8"],
-        textHtml: json["text/html"],
-        applicationEpubZip: json["application/epub+zip"],
-        applicationXMobipocketEbook: json["application/x-mobipocket-ebook"],
-        textPlainCharsetUtf8: json["text/plain; charset=utf-8"],
-        applicationRdfXml: json["application/rdf+xml"],
-        imageJpeg: json["image/jpeg"],
-        applicationOctetStream: json["application/octet-stream"],
-        applicationZip: json["application/zip"],
-        textPlainCharsetIso88591: json["text/plain; charset=iso-8859-1"],
+    factory Isbn.fromMap(Map<String, dynamic> json) => Isbn(
+        isbn10: json["isbn10"],
+        isbn13: json["isbn13"],
     );
 
     Map<String, dynamic> toMap() => {
-        "text/plain; charset=us-ascii": textPlainCharsetUsAscii,
-        "text/plain": textPlain,
-        "text/html; charset=utf-8": textHtmlCharsetUtf8,
-        "text/html": textHtml,
-        "application/epub+zip": applicationEpubZip,
-        "application/x-mobipocket-ebook": applicationXMobipocketEbook,
-        "text/plain; charset=utf-8": textPlainCharsetUtf8,
-        "application/rdf+xml": applicationRdfXml,
-        "image/jpeg": imageJpeg,
-        "application/octet-stream": applicationOctetStream,
-        "application/zip": applicationZip,
-        "text/plain; charset=iso-8859-1": textPlainCharsetIso88591,
+        "isbn10": isbn10,
+        "isbn13": isbn13,
     };
+}
+
+enum Updated {
+    MONTHLY,
+    WEEKLY
+}
+
+final updatedValues = EnumValues({
+    "MONTHLY": Updated.MONTHLY,
+    "WEEKLY": Updated.WEEKLY
+});
+
+class EnumValues<T> {
+    Map<String, T> map;
+    late Map<T, String> reverseMap;
+
+    EnumValues(this.map);
+
+    Map<T, String> get reverse {
+            reverseMap = map.map((k, v) => MapEntry(v, k));
+            return reverseMap;
+    }
 }

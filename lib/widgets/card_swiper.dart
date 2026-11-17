@@ -13,7 +13,7 @@ class CardSwiper extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    if (this.books.length == 0) {
+    if (this.books.isEmpty) {
       return Container(
         width: double.infinity,
         height: size.height * 0.5,
@@ -38,12 +38,12 @@ class CardSwiper extends StatelessWidget {
 
             return GestureDetector(
               onTap: () => Navigator.pushNamed(context, 'details',
-                  arguments: book),
+                  arguments: book), 
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: FadeInImage(
                     placeholder: AssetImage('assets/no-image.jpg'),
-                    image: NetworkImage(book.coverImage),
+                    image: NetworkImage(book.bookImage),
                     fit: BoxFit.cover),
               ),
             );
