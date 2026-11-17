@@ -1,13 +1,17 @@
 import 'models.dart';
 
+import 'dart:convert';
+
 class NowPlayingResponse {
-    final String next;
-    final dynamic previous;
-    final List<Book> results;
+    final String status;
+    final String copyright;
+    final int numResults;
+    final Results results;
 
     NowPlayingResponse({
-        required this.next,
-        required this.previous,
+        required this.status,
+        required this.copyright,
+        required this.numResults,
         required this.results,
     });
 
@@ -16,15 +20,17 @@ class NowPlayingResponse {
     String toJson() => json.encode(toMap());
 
     factory NowPlayingResponse.fromMap(Map<String, dynamic> json) => NowPlayingResponse(
-        next: json["next"],
-        previous: json["previous"],
-        results: List<Book>.from(json["results"].map((x) => Book.fromMap(x))),
+        status: json["status"],
+        copyright: json["copyright"],
+        numResults: json["num_results"],
+        results: Results.fromMap(json["results"]),
     );
 
     Map<String, dynamic> toMap() => {
-        "next": next,
-        "previous": previous,
-        "results": List<dynamic>.from(results.map((x) => x.toMap())),
+        "status": status,
+        "copyright": copyright,
+        "num_results": numResults,
+        "results": results.toMap(),
     };
 }
 

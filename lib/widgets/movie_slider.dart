@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/models/models.dart';
 
 class MovieSlider extends StatelessWidget {
-  // const MovieSlider({Key? key}) : super(key: key);
 
   final List<Book> books;
   const MovieSlider({Key? key, required this.books}) : super(key: key);
@@ -66,12 +65,12 @@ class _MoviePoster extends StatelessWidget {
           
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, 'details',
-                arguments: 'detalls peli'),
+                arguments: book),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: FadeInImage(
                 placeholder: AssetImage('assets/no-image.jpg'),
-                image: NetworkImage(book.coverImage),
+                image: NetworkImage(book.bookImage),
                 width: 130,
                 height: 190,
                 fit: BoxFit.cover,
