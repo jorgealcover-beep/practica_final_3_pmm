@@ -7,6 +7,7 @@ class NowPlayingResponse {
     final String copyright;
     final int numResults;
     final Results results;
+    
 
     NowPlayingResponse({
         required this.status,

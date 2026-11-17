@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cartellera'),
+        title: const Text('Best Sellers'),
         elevation: 0,
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.search_outlined))
@@ -25,9 +25,8 @@ class HomeScreen extends StatelessWidget {
               CardSwiper(books: booksProvider.onDisplayBooks),
 
               // Slider de pel·licules
-              MovieSlider(books: booksProvider.onDisplayBooks),
+              BookSlider(books: booksProvider.onDisplayBooks),
               // Poodeu fer la prova d'afegir-ne uns quants, veureu com cada llista és independent
-              // MovieSlider(),
               // MovieSlider(),
             ],
           ),

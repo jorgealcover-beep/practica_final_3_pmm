@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/models.dart';
 
-class MovieSlider extends StatelessWidget {
+class BookSlider extends StatelessWidget {
 
   final List<Book> books;
-  const MovieSlider({Key? key, required this.books}) : super(key: key);
+  const BookSlider({Key? key, required this.books}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class MovieSlider extends StatelessWidget {
           
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text('Populars',
+            child: Text('Best sellers setmanals',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 5),
@@ -37,8 +37,8 @@ class MovieSlider extends StatelessWidget {
             child: ListView.builder(
                 
                 scrollDirection: Axis.horizontal,
-                itemCount: 20,
-                itemBuilder: (_, int index) => _MoviePoster(books: books, index: index)),
+                itemCount: 15,
+                itemBuilder: (_, int index) => _BookFrontPage(books: books, index: index)),
           )
         ],
       ),
@@ -46,8 +46,8 @@ class MovieSlider extends StatelessWidget {
   }
 }
 
-class _MoviePoster extends StatelessWidget {
-  const _MoviePoster({Key? key, required this.books, required this.index}) : super(key: key);
+class _BookFrontPage extends StatelessWidget {
+  const _BookFrontPage({Key? key, required this.books, required this.index}) : super(key: key);
   final List<Book> books;
   final int index;
   @override

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/models.dart';
-import 'package:movies_app/widgets/widgets.dart';
-import '../models/models.dart';
 
 class DetailsScreen extends StatelessWidget {
   @override
@@ -17,7 +15,6 @@ class DetailsScreen extends StatelessWidget {
               [
                 _PosterAndTitile(book: book),
                 _Overview(book: book),
-                CastingCards(),
               ],
             ),
           ),
@@ -92,7 +89,7 @@ class _PosterAndTitile extends StatelessWidget {
                 children: [
                   const Icon(Icons.star_outline, size: 15, color: Colors.grey),
                   const SizedBox(width: 5),
-                  Text(book.rank.toString(), style: textTheme.bodySmall),
+                  Text('Top ${book.rank}', style: textTheme.bodySmall),
                 ],
               ),
             

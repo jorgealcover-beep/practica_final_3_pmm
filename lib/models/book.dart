@@ -6,9 +6,10 @@ class Results {
     final String nextPublishedDate;
     final String publishedDateDescription;
     final DateTime bestsellersDate;
-    final List<ListElement> lists;
+    final List<ListElement>? lists;
     final String monthlyUri;
     final String weeklyUri;
+    final List<Book>? books;
 
     Results({
         required this.previousPublishedDate,
@@ -16,12 +17,17 @@ class Results {
         required this.nextPublishedDate,
         required this.publishedDateDescription,
         required this.bestsellersDate,
-        required this.lists,
+        this.lists,
         required this.monthlyUri,
         required this.weeklyUri,
+        this.books,
+        
     });
-    List<ListElement> getLists() {
-      return lists;
+    getLists(){
+      return this.lists;
+    }
+    getBooks(){
+      return books;
     }
     factory Results.fromJson(String str) => Results.fromMap(json.decode(str));
 
@@ -44,10 +50,11 @@ class Results {
         "next_published_date": nextPublishedDate,
         "published_date_description": publishedDateDescription,
         "bestsellers_date": "${bestsellersDate.year.toString().padLeft(4, '0')}-${bestsellersDate.month.toString().padLeft(2, '0')}-${bestsellersDate.day.toString().padLeft(2, '0')}",
-        "lists": List<dynamic>.from(lists.map((x) => x.toMap())),
+        "lists": List<dynamic>.from(lists!.map((x) => x.toMap())),
         "monthly_uri": monthlyUri,
         "weekly_uri": weeklyUri,
     };
+
 }
 
 class ListElement {
@@ -137,6 +144,7 @@ class Book {
     final List<Isbn> isbns;
     final List<BuyLink> buyLinks;
 
+
     Book({
         required this.ageGroup,
         required this.amazonProductUrl,
@@ -166,6 +174,7 @@ class Book {
         required this.weeksOnList,
         required this.isbns,
         required this.buyLinks,
+
     });
 
     factory Book.fromJson(String str) => Book.fromMap(json.decode(str));
